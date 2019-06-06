@@ -44,8 +44,16 @@ def edit_user(request, id):
 
 # レッスン受講履歴一覧↓
 def lesson_records(request):
+    form = MonthForm()
+    customers = Customer.objects.all().prefetch_related("record_set")
+    # 選択された月の取得↓
+    if request.method == 'POST':
+        form = MonthForm(request.POST)
+        receive = request.POST['請求月']
+    else:
+        receive = str(datetime.date.today())[:-3]
     customers = Customer.objects.all()
-    record_list = Record.objects.all().select_related().order_by('study_date')
+    record_list = Record.objects.all().select_related().filter(study_date__startswith=receive).order_by('study_date')
     # 顧客毎の受講時間を保存する辞書を定義↓
     customer_finance_study_hour = {}
     customer_programing_study_hour = {}
@@ -103,6 +111,7 @@ def lesson_records(request):
     context = {
         'record_list': record_list,
         'header': header,
+        'form': form,
     }
     return render(request, 'school/lesson_records.html', context)
 
@@ -208,18 +217,16 @@ def billings(request):
         else:
             customer.genre = 'なし'
         # 各レッスンにおける請求額の算出↓
-        english_records = customer.record_set.filter(subject_id=1, study_date__startswith=receive)
         english_total = 0
-        for english_record in english_records:
+        for english_record in customer_english_records:
             english_total += english_record.study_hour
         if english_total == 0:
             customer.english_bill = 0
         else:
             customer.english_bill = 5000 + english_total * 3500
 
-        finance_records = customer.record_set.filter(subject_id=2, study_date__startswith=receive)
         finance_total = 0
-        for finance_record in finance_records:
+        for finance_record in customer_finance_records:
             finance_total += finance_record.study_hour
         if finance_total <= 20:
             customer.finance_bill = finance_total * 3300
@@ -228,9 +235,8 @@ def billings(request):
         else:
             customer.finance_bill = 20 * 3300 + 30 * 2800 + (finance_total - 50) * 2500
 
-        programing_records = customer.record_set.filter(subject_id=3, study_date__startswith=receive)
         programing_total = 0
-        for programing_record in programing_records:
+        for programing_record in customer_programing_records:
             programing_total += programing_record.study_hour
         if programing_total == 0:
             customer.programing_bill = 0
