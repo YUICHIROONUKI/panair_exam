@@ -1,0 +1,23 @@
+form {
+  width: 230;
+  line-height: 3;
+}
+
+#customer_id {
+  width: 160;
+}
+
+#subject_id {
+  width: 150;
+}
+
+li {
+  font-size: 20px;
+  list-style: none;
+  line-height: 5;
+}
+
+#error {
+  color: red;
+  font-size:10px;
+}

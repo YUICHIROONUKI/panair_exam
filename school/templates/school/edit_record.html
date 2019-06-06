@@ -1,0 +1,29 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'school/style.css' %}">
+<h1>レッスン受講記録編集</h1>
+<form action="{% url 'school:edit_record' id %}" method="post">
+    {% csrf_token %}
+        <label for='customer_id'>顧客名</label>
+        <select name='customer_id' required id='customer_id'>
+            <option value selected>--------</option>
+            {% for customer in customers %}
+                <option value="{{ customer.id }}">{{ customer.customer_name }}</option>
+            {% endfor %}
+        </select>
+
+        <label for='subject_id'>ジャンル</label>
+        <select name='subject_id' required id='subject_id'>
+            <option value selected>--------</option>
+            {% for subject in genre %}
+                <option value="{{ subject.id }}">{{ subject.subject_name }}</option>
+            {% endfor %}
+        </select>
+    {{ form }}
+    {% if errors %}
+        <div id="error" style="color:red; font-size:14px; line-height:1;">
+            {{ errors }}
+        </div>
+    {% endif %}
+    <input type="submit" value="登録">
+</form>

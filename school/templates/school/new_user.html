@@ -1,0 +1,9 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'school/new_user.css' %}">
+<h1>顧客追加</h1>
+<form action="{% url 'school:create_user' %}" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="登録">
+</form>

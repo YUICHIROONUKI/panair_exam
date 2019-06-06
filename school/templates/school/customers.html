@@ -1,0 +1,24 @@
+<h1>顧客一覧</h1>
+{% if customer_list %}
+    <table border="1" style="border-collapse: collapse">
+      <tr>
+        {% for name in header %}
+            <th>{{ name }}</th>
+        {% endfor %}
+      </tr>
+
+      {% for customer in customer_list %}
+      <tr>
+          <td>{{ customer.id }}</td>
+          <td>{{ customer.customer_name }}</td>
+          <td>{{ customer.sex }}</td>
+          <td>{{ customer.age }}</td>
+          <td><a href="{% url 'school:edit_user' customer.id %}">編集</a></td>
+      </tr>
+      {% endfor %}
+    </table>
+{% else %}
+    <p>顧客が登録されていません</p>
+{% endif %}
+<a href="{% url 'school:new_user' %}">新規追加</a>
+<a href="{% url 'school:index' %}">メニュー画面へ</a>

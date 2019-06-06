@@ -1,0 +1,42 @@
+<h1>レポート</h1>
+<form action="/school/report/" method="post">
+    {% csrf_token %}
+    {{form}}
+    <input type="submit" value="検索">
+</form>
+<h2>ジャンルと性別別</h2>
+<table border="1" style="border-collapse: collapse">
+    <tr>
+        {% for header in genre_sex %}
+            <th>{{ header }}</th>
+        {% endfor %}
+    </tr>
+    {% for genre_sex in genre_sex_list %}
+        <tr>
+            <td>{{ genre_sex.genre }}</td>
+            <td>{{ genre_sex.sex }}</td>
+            <td>{{ genre_sex.lesson_count }}</td>
+            <td>{{ genre_sex.customer_count }}</td>
+            <td>{{ genre_sex.total_bill }}</td>
+        </tr>
+    {% endfor %}
+</table>
+<h2>ジャンルと年齢層別</h2>
+<table border="1" style="border-collapse: collapse">
+    <tr>
+        {% for header in genre_age %}
+            <th>{{ header }}</th>
+        {% endfor %}
+    </tr>
+    {% for genre_age in genre_age_list %}
+        <tr>
+            <td>{{ genre_age.genre }}</td>
+            <td>{{ genre_age.sex }}</td>
+            <td>{{ genre_age.age }}</td>
+            <td>{{ genre_age.lesson_count }}</td>
+            <td>{{ genre_age.customer_count }}</td>
+            <td>{{ genre_age.total_bill }}</td>
+        </tr>
+    {% endfor %}
+</table>
+<a href="{% url 'school:index' %}">メニュー画面へ</a>
