@@ -1,0 +1,27 @@
+<h1>レッスン受講記録一覧</h1>
+{% if record_list %}
+    <table border="1" style="border-collapse: collapse">
+      <tr>
+        {% for name in header %}
+            <th>{{ name }}</th>
+        {% endfor %}
+      </tr>
+
+      
+      {% for record in record_list %}
+      <tr>
+          <td>{{ record.customer_id }}</td>
+          <td>{{ record.customer_name }}</td>
+          <td>{{ record.subject_name }}</td>
+          <td>{{ record.study_date }}</td>
+          <td>{{ record.study_hour }}h</td>
+          <td>{{ record.pay_money }}</td>
+          <td><a href="{% url 'school:edit_record' record.id %}">編集</a></td>
+      </tr>
+      {% endfor %}
+    </table>
+{% else %}
+    <p>受講記録がありません</p>
+{% endif %}
+<a href="{% url 'school:new_record' %}">新規追加</a>
+<a href="{% url 'school:index' %}">メニュー画面へ</a>

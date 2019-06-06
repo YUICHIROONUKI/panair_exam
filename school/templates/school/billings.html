@@ -1,0 +1,27 @@
+<h1>請求一覧</h1>
+<form action="/school/billings/" method="post">
+    {% csrf_token %}
+    {{form}}
+    <input type="submit" value="検索">
+</form>
+{% if customers %}
+    <table border="1" style="border-collapse: collapse">
+        <tr>
+            {% for name in header %}
+                <th>{{ name }}</th>
+            {% endfor %}
+        </tr>
+        {% for customer in customers %}
+            <tr>
+                <td>{{ customer.id }}</td>
+                <td>{{ customer.customer_name }}</td>
+                <td>{{ customer.genre }}</td>
+                <td>{{ customer.lesson_total }}レッスン</td>
+                <td>{{ customer.total_bill }}円</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% else %}
+    <p>受講記録がありません</p>
+{% endif %}
+<a href="{% url 'school:index' %}">メニュー画面へ</a>

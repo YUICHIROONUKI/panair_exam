@@ -1,0 +1,10 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'school/style.css' %}">
+<h1>メニュー</h1>
+<ul>
+    <li><a href="{% url 'school:customers' %}">顧客一覧</a></li>
+    <li><a href="{% url 'school:lesson_records' %}">レッスン受講記録</a></li>
+    <li><a href="{% url 'school:billings' %}">月別請求一覧</a></li>
+    <li><a href="{% url 'school:report' %}">レポート</a></li>
+</ul>
